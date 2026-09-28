@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/logo-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Caveat:wght@500&family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/hublou.jpg">
 <link rel="preload" as="image" href="assets/nori.jpg">
 <style>
@@ -72,9 +72,9 @@ main{position:relative;z-index:1}
   -webkit-mask-image:radial-gradient(closest-side,#000 80%,transparent);mask-image:radial-gradient(closest-side,#000 80%,transparent)}
 .hero-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(4,11,31,.92) 0%,rgba(4,11,31,.55) 40%,rgba(4,11,31,0) 72%)}
 .hero-copy{position:absolute;left:0;right:0;bottom:clamp(96px,14vh,150px);text-align:center;padding:0 var(--pad)}
-.hero-title{font-family:var(--serif);font-weight:500;font-size:clamp(40px,5.8vw,112px);line-height:.92;letter-spacing:-.015em;text-shadow:0 6px 50px rgba(4,11,31,.55)}
+.hero-title{font-family:var(--serif);font-weight:500;font-size:clamp(38px,5.2vw,100px);line-height:.95;letter-spacing:-.015em;text-shadow:0 6px 50px rgba(4,11,31,.55)}
 .hero-title .line{display:block;overflow:hidden;padding-bottom:.06em}
-.hero-title .line>span{display:inline-block}
+.hero-title .line>span{display:inline-block;text-wrap:balance}
 .hero-timer{display:inline-flex;align-items:center;gap:12px;margin-bottom:24px;padding:8px 18px 8px 14px;border:1px solid rgba(243,238,228,.28);border-radius:999px;background:rgba(4,11,31,.38);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
 .hero-timer i{width:8px;height:8px;border-radius:50%;background:#FF5A5A;animation:pulse 1.6s infinite}
 .hero-timer b{font-weight:500;font-size:20px;letter-spacing:.06em;color:var(--gold)}
@@ -84,7 +84,7 @@ main{position:relative;z-index:1}
 .hero-hint{position:absolute;left:var(--pad);bottom:34px;display:flex;align-items:center;gap:14px;color:var(--muted)}
 .hero-hint i{width:1px;height:38px;background:linear-gradient(var(--cream),transparent);animation:drip 2.2s ease-in-out infinite}
 @keyframes drip{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-@media (max-width:767px){.hero-hint{display:none}.hero-copy{bottom:96px}.hero-title{font-size:9vw}}
+@media (max-width:767px){.hero-hint{display:none}.hero-copy{bottom:96px}.hero-title{font-size:8.4vw}}
 
 /* ---------- 2. manifest ---------- */
 .manifest{position:relative;padding:34vh var(--pad) 36vh}
@@ -93,30 +93,38 @@ main{position:relative;z-index:1}
 .manifest-text .gold{color:var(--gold)}
 @media (max-width:900px){.manifest{padding-top:24vh}}
 
-/* ---------- 3. gallery ---------- */
-.gallery{position:relative;background:var(--navy)}
+/* ---------- 3. gallery: polaroids taped to the wall ---------- */
+.gallery{position:relative;background:radial-gradient(90% 70% at 50% 62%,#10245c 0%,var(--navy) 72%)}
 .gallery::before{content:"";position:absolute;left:0;right:0;top:-40vh;height:40vh;background:linear-gradient(rgba(7,20,51,0),var(--navy));pointer-events:none}
 .gallery-intro{display:grid;grid-template-columns:1.3fr 1fr;gap:6vw;align-items:end;padding:20vh var(--pad) 4vh}
 .gallery-intro p{color:var(--muted);max-width:44ch}
-.gallery-stage{overflow:hidden;padding:6vh 0 18vh}
+.gallery-stage{overflow:hidden;padding:12vh 0 20vh}
 /* two identical halves; sliding by -50% loops seamlessly */
-.track{display:flex;align-items:center;width:max-content;animation:marquee 110s linear infinite;will-change:transform}
+.track{display:flex;align-items:flex-start;width:max-content;animation:marquee 120s linear infinite;will-change:transform}
 .gallery-stage:hover .track{animation-play-state:paused}
 @keyframes marquee{to{transform:translate3d(-50%,0,0)}}
-@media (prefers-reduced-motion:reduce){.track{animation-duration:400s}}
-.shot{flex:none;margin-right:3.2vw}
-.shot:nth-child(odd){margin-bottom:10vh}.shot:nth-child(even){margin-top:10vh}
-.frame{overflow:hidden;border-radius:4px;background:#0c1a44}
-.shot.p .frame{height:54vh;aspect-ratio:3/4}
-.shot.l .frame{height:40vh;aspect-ratio:4/3}
-.shot.w .frame{height:56vh;aspect-ratio:16/9}
-.frame img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
-.shot:hover .frame img{transform:scale(1.05)}
-.shot figcaption{display:flex;gap:14px;margin-top:14px;color:var(--muted)}
-.shot figcaption span:first-child{color:var(--gold)}
+.polaroid{--r:0deg;--y:0px;position:relative;flex:none;width:clamp(210px,21vw,320px);margin-right:clamp(30px,4vw,64px);padding:12px 12px 0;background:#F7F4EE;
+  box-shadow:0 18px 40px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.25);transform:translateY(var(--y)) rotate(var(--r));transition:transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .6s}
+/* strip of tape holding it on the wall */
+.polaroid::before{content:"";position:absolute;left:50%;top:-15px;width:96px;height:30px;margin-left:-48px;z-index:1;background:rgba(236,228,210,.6);box-shadow:0 1px 3px rgba(0,0,0,.2);transform:rotate(calc(var(--r) * -1.8));
+  clip-path:polygon(3% 0,97% 0,100% 20%,96% 40%,100% 60%,96% 80%,100% 100%,3% 100%,0 80%,4% 60%,0 40%,4% 20%)}
+.polaroid:hover{transform:translateY(calc(var(--y) - 12px)) rotate(0deg) scale(1.05);box-shadow:0 34px 80px rgba(0,0,0,.55);z-index:2}
+.photo{position:relative;aspect-ratio:1;overflow:hidden;background:#23252b}
+/* undeveloped: dark, murky; .dev fades the chemistry away like an instant print */
+.photo img{width:100%;height:100%;object-fit:cover;filter:brightness(.2) sepia(.9) saturate(.3) contrast(.7) blur(3px);transition:filter 3.4s cubic-bezier(.3,.1,.2,1)}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#50566a,#2a2d36);opacity:.85;transition:opacity 2.8s ease-out .15s}
+.polaroid.dev .photo img{filter:none}
+.polaroid.dev .photo::after{opacity:0}
+.polaroid.dev{animation:shake .8s ease-out}
+@keyframes shake{
+  25%{transform:translateY(calc(var(--y) - 6px)) rotate(calc(var(--r) + 4deg))}
+  50%{transform:translateY(var(--y)) rotate(calc(var(--r) - 3deg))}
+  75%{transform:translateY(var(--y)) rotate(calc(var(--r) + 1.5deg))}}
+.polaroid figcaption{height:clamp(54px,5vw,74px);display:flex;align-items:center;justify-content:center;padding:0 6px;text-align:center;font-family:'Caveat',cursive;font-weight:500;font-size:clamp(20px,1.7vw,27px);line-height:1;color:#2b2d36}
+@media (prefers-reduced-motion:reduce){.track{animation-duration:400s}.polaroid.dev{animation:none}}
 @media (max-width:767px){
   .gallery-intro{grid-template-columns:1fr;gap:20px;padding-top:16vh}
-  .shot.p .frame{height:48vh}.shot.l .frame{height:34vh}.shot.w .frame{height:40vh}
+  .polaroid{width:62vw}
 }
 
 /* ---------- 4. signup / boarding pass ---------- */
@@ -211,7 +219,7 @@ main{position:relative;z-index:1}
       <div class="hero-shade"></div>
       <div class="hero-copy">
         <div class="hero-timer"><i></i><span data-timer-label>Webinarul începe în</span><b data-timer>05:00</b></div>
-        <h1 class="hero-title"><span class="line"><span>O comunitate de români</span></span><span class="line"><span>cum nu ai mai văzut…</span></span></h1>
+        <h1 class="hero-title"><span class="line"><span>Este Clubul Călătorul Antreprenor</span></span><span class="line"><span>alegerea potrivită pentru tine?</span></span></h1>
         <ul class="hero-list">
           <li>Călătorești mai mult</li>
           <li>Îți faci prieteni noi,</li>
@@ -225,13 +233,13 @@ main{position:relative;z-index:1}
 
   <!-- 2. Manifest over the clouds -->
   <section class="manifest">
-    <p class="manifest-text" data-words>Călătorul Antreprenor este clubul în care peste <b class="gold">700 de români</b> stau în resorturi de 4 și 5 stele, descoperă lumea împreună și își transformă recomandările în vacanțe plătite. Nu e noroc. E o metodă.</p>
+    <p class="manifest-text" data-words>Călătorul Antreprenor este clubul în care peste <b class="gold">700 de români</b> stau în resorturi de 4 și 5 stele, descoperă lumea împreună și își transformă recomandările în vacanțe plătite.</p>
   </section>
   <!-- 3. Community gallery -->
   <section class="gallery" id="comunitate">
     <div class="gallery-intro">
-      <h2 class="h2" data-reveal>O comunitate diferită</h2>
-      <p data-reveal>De români care călătoresc și câștigă împreună. Dubai, Algarve, Marrakesh, Phuket, Bali, Cebu Mactan, Cancun, Londra, Sinaia, Praga, Madrid, Barcelona, Roma, Paris și multe alte destinații de vis.</p>
+      <h2 class="h2" data-reveal>O comunitate cum nu ai mai văzut…</h2>
+      <p data-reveal>Români care călătoresc și câștigă împreună. Dubai, Algarve, Marrakesh, Phuket, Bali, Cebu Mactan, Cancun, Londra, Sinaia, Praga, Madrid, Barcelona, Roma, Paris și multe alte destinații de vis.</p>
     </div>
     <div class="gallery-stage"><div class="track"></div></div>
   </section>
@@ -293,31 +301,36 @@ const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAl
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- content ---------- */
+// [photo file, caption]
 const SHOTS = [
-  ['w','grup','Comunitatea în deșert · Dubai'],
-  ['l','marrakesh-piata','Piața Marrakesh · Maroc'],
-  ['p','dubai-burj','Burj Khalifa noaptea · Dubai'],
-  ['p','bali-templu','Templu balinez · Bali'],
-  ['l','algarve','Pe stâncă la ocean · Algarve'],
-  ['p','maroc-intrare','Intrare tradițională · Maroc'],
-  ['l','dubai-barca','Pe barcă · Dubai Marina'],
-  ['p','sfinx','Sfinxul Bucegi · România'],
-  ['l','bali-rafting','Rafting pe râu · Bali'],
-  ['l','dubai-safari','Safari în deșert · Dubai'],
-  ['p','bali-atv','Aventură ATV · Bali'],
-  ['p','munte','Excursie la munte · România'],
-  ['l','londra','Eveniment tematic · Londra'],
-  ['p','bali-porti','Porți de templu · Bali'],
-  ['l','malaezia','Templu tradițional · Malaezia'],
-  ['l','marrakesh-piscina','La piscină · Marrakesh'],
-  ['p','dubai-cina','Cină de grup · Dubai Marina'],
+  ['grup','Comunitatea în deșert · Dubai'],
+  ['marrakesh-piata','Piața Marrakesh · Maroc'],
+  ['dubai-burj','Burj Khalifa noaptea · Dubai'],
+  ['bali-templu','Templu balinez · Bali'],
+  ['algarve','Pe stâncă la ocean · Algarve'],
+  ['maroc-intrare','Intrare tradițională · Maroc'],
+  ['dubai-barca','Pe barcă · Dubai Marina'],
+  ['sfinx','Sfinxul Bucegi · România'],
+  ['bali-rafting','Rafting pe râu · Bali'],
+  ['dubai-safari','Safari în deșert · Dubai'],
+  ['bali-atv','Aventură ATV · Bali'],
+  ['munte','Excursie la munte · România'],
+  ['londra','Eveniment tematic · Londra'],
+  ['bali-porti','Porți de templu · Bali'],
+  ['malaezia','Templu tradițional · Malaezia'],
+  ['marrakesh-piscina','La piscină · Marrakesh'],
+  ['dubai-cina','Cină de grup · Dubai Marina'],
 ];
 const COUNTRIES = 'România 40|Statele Unite 1|Regatul Unit 44|Spania 34|Italia 39|Franța 33|Germania 49|Austria 43|Elveția 41|Belgia 32|Olanda 31|Portugalia 351|Grecia 30|Ungaria 36|Polonia 48|Cehia 420|Slovacia 421|Luxemburg 352|Irlanda 353|Danemarca 45|Suedia 46|Norvegia 47|Finlanda 358|Estonia 372|Letonia 371|Lituania 370|Bulgaria 359|Croația 385|Slovenia 386|Serbia 381|Muntenegru 382|Macedonia 389|Albania 355|Turcia 90|Emiratele Arabe 971|Arabia Saudită 966|Egipt 20|Israel 972|Australia 61|Noua Zeelandă 64|China 86|Japonia 81|Coreea de Sud 82|India 91|Brazilia 55|Mexic 52|Argentina 54|Chile 56|Columbia 57|Africa de Sud 27';
 
-// rendered twice so the CSS marquee can loop at -50%
-const shots = hidden => SHOTS.map(([k,f,c],i)=>
-  `<figure class="shot ${k}"${hidden?' aria-hidden="true"':''}><div class="frame"><img src="assets/comunitate/${f}.jpg" alt="${hidden?'':c}"></div><figcaption class="label"><span>${String(i+1).padStart(2,'0')}</span><span>${c}</span></figcaption></figure>`).join('');
+// rendered twice so the CSS marquee can loop at -50%; each polaroid gets its own tilt and height on the wall
+const TILT = [-4,3,-2,5,-3,2,-5,3.5,-1.5,4,-3.5,2.5,-2.5,4.5,-4.5,1.5,-3], DROP = [0,34,-14,22,-26,10,30,-8,18,-20,26,-4,14,-18,32,-12,6];
+const shots = hidden => SHOTS.map(([f,c],i)=>
+  `<figure class="polaroid" style="--r:${TILT[i%TILT.length]}deg;--y:${DROP[i%DROP.length]}px"${hidden?' aria-hidden="true"':''}><div class="photo"><img src="assets/comunitate/${f}.jpg" alt="${hidden?'':c}"></div><figcaption>${c}</figcaption></figure>`).join('');
 $('.track').innerHTML = shots(false) + shots(true);
+// a polaroid "develops" each time it slides into view, and fades back once it leaves
+const develop = new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('dev',e.isIntersecting)),{threshold:.4});
+$$('.polaroid').forEach(p=>develop.observe(p));
 $('#tara').insertAdjacentHTML('beforeend', COUNTRIES.split('|').map(s=>{const [n,p]=s.split(/ (?=\d+$)/);return `<option value="${n}" data-p="+${p}">${n} (+${p})</option>`}).join(''));
 
 /* manifest: one span per word for the scroll fill */
