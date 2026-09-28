@@ -35,11 +35,6 @@ button,input,select{font:inherit;color:inherit}
 .h2{font-family:var(--serif);font-weight:500;font-size:clamp(44px,6.4vw,120px);line-height:.95;letter-spacing:-.015em}
 ::selection{background:var(--royal-2);color:var(--cream)}
 
-/* ---------- loader ---------- */
-.loader{position:fixed;inset:0;z-index:100;background:#0E172A;cursor:pointer}
-.loader video{width:100%;height:100%;object-fit:cover}
-@media (max-aspect-ratio:1/1){.loader video{object-fit:contain}}
-
 /* ---------- chrome ---------- */
 .nav{position:fixed;inset:0 0 auto;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:16px var(--pad);mix-blend-mode:difference;color:#fff;pointer-events:none}
 .nav a{pointer-events:auto}
@@ -75,94 +70,32 @@ main{position:relative;z-index:1}
   mask-image:var(--hole),linear-gradient(#000 0 0);mask-size:var(--iw) var(--ih),100% 100%;mask-position:center;mask-repeat:no-repeat;mask-composite:exclude}
 .cabin img{position:absolute;left:50%;top:50%;width:var(--iw);height:var(--ih);max-width:none;margin:calc(var(--ih)/-2) 0 0 calc(var(--iw)/-2);
   -webkit-mask-image:radial-gradient(closest-side,#000 80%,transparent);mask-image:radial-gradient(closest-side,#000 80%,transparent)}
-.hero-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(4,11,31,.92) 0%,rgba(4,11,31,.35) 32%,rgba(4,11,31,0) 55%)}
-.hero-top{position:absolute;top:96px;left:var(--pad);right:var(--pad);display:flex;justify-content:space-between;gap:20px;color:var(--muted)}
+.hero-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(4,11,31,.92) 0%,rgba(4,11,31,.55) 40%,rgba(4,11,31,0) 72%)}
 .hero-copy{position:absolute;left:0;right:0;bottom:clamp(96px,14vh,150px);text-align:center;padding:0 var(--pad)}
-.hero-title{font-family:var(--serif);font-weight:500;font-size:clamp(46px,7.4vw,140px);line-height:.92;letter-spacing:-.015em;text-shadow:0 6px 50px rgba(4,11,31,.55)}
+.hero-title{font-family:var(--serif);font-weight:500;font-size:clamp(40px,5.8vw,112px);line-height:.92;letter-spacing:-.015em;text-shadow:0 6px 50px rgba(4,11,31,.55)}
 .hero-title .line{display:block;overflow:hidden;padding-bottom:.06em}
 .hero-title .line>span{display:inline-block}
 .hero-timer{display:inline-flex;align-items:center;gap:12px;margin-bottom:24px;padding:8px 18px 8px 14px;border:1px solid rgba(243,238,228,.28);border-radius:999px;background:rgba(4,11,31,.38);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
 .hero-timer i{width:8px;height:8px;border-radius:50%;background:#FF5A5A;animation:pulse 1.6s infinite}
 .hero-timer b{font-weight:500;font-size:20px;letter-spacing:.06em;color:var(--gold)}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,90,90,.6)}70%,100%{box-shadow:0 0 0 10px rgba(255,90,90,0)}}
-.hero-sub{max-width:540px;margin:20px auto 0;color:var(--muted);font-size:clamp(15px,1.2vw,18px)}
+.hero-list{list-style:none;margin:22px auto 0;font-family:var(--serif);font-weight:500;font-size:clamp(21px,2vw,32px);line-height:1.28;text-shadow:0 4px 30px rgba(4,11,31,.6)}
+.hero-list li:last-child{color:var(--gold)}
 .hero-hint{position:absolute;left:var(--pad);bottom:34px;display:flex;align-items:center;gap:14px;color:var(--muted)}
 .hero-hint i{width:1px;height:38px;background:linear-gradient(var(--cream),transparent);animation:drip 2.2s ease-in-out infinite}
 @keyframes drip{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-@media (max-width:767px){.hero-top{top:78px;flex-direction:column;gap:4px}.hero-hint{display:none}.hero-copy{bottom:96px}}
+@media (max-width:767px){.hero-hint{display:none}.hero-copy{bottom:96px}.hero-title{font-size:9vw}}
 
-/* ---------- 2. manifest + webinar topics ---------- */
-.manifest{position:relative;padding:34vh var(--pad) 10vh}
+/* ---------- 2. manifest ---------- */
+.manifest{position:relative;padding:34vh var(--pad) 36vh}
 .manifest-text{font-family:var(--serif);font-weight:500;font-size:clamp(34px,4.9vw,92px);line-height:1.02;letter-spacing:-.012em;max-width:1500px}
 .manifest-text span{opacity:.18}
 .manifest-text .gold{color:var(--gold)}
-.topics{position:relative;display:grid;grid-template-columns:1fr 2fr;gap:6vw;padding:10vh var(--pad) 24vh;max-width:1600px}
-.topics-brand{display:flex;gap:18px;align-items:flex-start}
-.topics-brand img{width:64px}
-.topics-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px 5vw}
-.topic h3{font-family:var(--serif);font-weight:500;font-size:clamp(26px,2.3vw,38px);line-height:1.05}
-.topic hr{border:0;height:1px;background:rgba(243,238,228,.28);margin:18px 0}
-.topic p{color:var(--muted);font-size:15px;max-width:40ch}
-@media (max-width:900px){.topics{grid-template-columns:1fr}.topics-grid{grid-template-columns:1fr;gap:40px}.manifest{padding-top:24vh}}
+@media (max-width:900px){.manifest{padding-top:24vh}}
 
-/* ---------- 3. plane ---------- */
-.plane{position:relative;background:radial-gradient(70% 60% at 50% 58%,rgba(38,76,190,.75) 0%,transparent 72%),linear-gradient(var(--navy),var(--royal) 55%,var(--ink))}
-.plane::before{content:"";position:absolute;left:0;right:0;top:-40vh;height:40vh;background:linear-gradient(rgba(7,20,51,0),var(--navy));pointer-events:none}
-.plane-stage{position:relative;height:100vh;overflow:hidden}
-.pw{position:absolute;font-family:var(--serif);font-weight:500;font-size:clamp(58px,9.4vw,196px);line-height:1;letter-spacing:-.02em;white-space:nowrap;z-index:1}
-.pw-l{left:var(--pad);top:27%}
-.pw-r{right:var(--pad);top:52%}
-.plane-card{--ch:78vh;position:absolute;inset:0;margin:auto;height:var(--ch);width:calc(var(--ch)*736/1308);border-radius:999px 999px 20px 20px;overflow:hidden;z-index:2;box-shadow:0 50px 120px rgba(0,0,0,.5);will-change:transform}
-.plane-card img{width:100%;height:100%;object-fit:cover;transform-origin:50% 35%}
-.plane-head{position:absolute;left:var(--pad);top:15vh;z-index:3}
-.plane-head .h2{margin-top:14px}
-.plane-copy{position:absolute;right:var(--pad);top:17vh;width:min(360px,28vw);color:var(--muted);font-size:15px;z-index:3}
-.plane-copy .label{color:var(--cream);display:block;margin-bottom:14px}
-.plane-specs{position:absolute;left:var(--pad);bottom:13vh;display:grid;grid-template-columns:repeat(3,auto);gap:30px 44px;z-index:3}
-.spec .label{color:var(--muted);font-size:10px}
-.spec b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(30px,3vw,52px);line-height:1.05}
-.plane-side{position:absolute;right:var(--pad);bottom:13vh;text-align:right;z-index:3;color:var(--muted)}
-.plane-side b{display:block;font-family:var(--serif);font-weight:500;color:var(--cream);font-size:clamp(22px,2vw,32px);line-height:1.15;margin-top:8px}
-@media (max-width:767px){
-  .pw{font-size:16.5vw}.pw-l{top:20%;left:var(--pad)}.pw-r{top:auto;bottom:22%;right:var(--pad)}
-  .plane-card{--ch:62vh}
-  .plane-head{top:84px;left:0;right:0;text-align:center}.plane-head .h2{font-size:44px;margin-top:8px}
-  .plane-copy,.plane-side{display:none}
-  .plane-specs{left:var(--pad);right:var(--pad);bottom:96px;grid-template-columns:repeat(3,1fr);gap:18px 12px;text-align:center}
-  .spec b{font-size:28px}.spec .label{font-size:8.5px;letter-spacing:.12em}
-}
-
-/* ---------- 4. steps ---------- */
-.steps{position:relative;background:var(--cream);color:var(--ink)}
-.steps-stage{height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:6vw;padding:108px var(--pad) 110px;align-items:center}
-.steps-list .h2{font-size:clamp(40px,4.6vw,84px);margin:14px 0 5vh}
-.step{position:relative;border-top:1px solid rgba(4,11,31,.16);padding:20px 0;cursor:pointer}
-.step::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:100%;background:var(--royal-2);transform-origin:left;transform:scaleX(var(--p,0))}
-.step-h{display:flex;align-items:baseline;gap:22px;font-family:var(--serif);font-weight:500;font-size:clamp(28px,2.8vw,46px);line-height:1.1}
-.step-h .label{color:rgba(4,11,31,.5);min-width:64px}
-.step-h .pm{margin-left:auto;font-family:var(--sans);font-weight:300;font-size:26px;transition:transform .5s}
-.step.active .pm{transform:rotate(45deg)}
-.step-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .7s cubic-bezier(.2,.8,.2,1)}
-.step.active .step-body{grid-template-rows:1fr}
-.step-body>div{overflow:hidden}
-.step-body p{padding:10px 0 4px 86px;color:rgba(4,11,31,.66);max-width:48ch}
-.steps-media{position:relative;height:min(72vh,760px);border-radius:6px;overflow:hidden;background:var(--cream-2)}
-.steps-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity 1s,transform 1.6s cubic-bezier(.2,.8,.2,1)}
-.steps-media img.active{opacity:1;transform:none}
-.steps-media figcaption{position:absolute;left:18px;bottom:16px;color:var(--cream);text-shadow:0 1px 12px rgba(0,0,0,.5)}
-.steps-foot{position:absolute;left:var(--pad);right:var(--pad);bottom:28px;display:flex;justify-content:space-between;gap:20px;color:rgba(4,11,31,.55)}
-.steps-foot b{font-family:var(--serif);font-weight:500;font-size:28px;color:var(--ink);margin-left:10px;letter-spacing:0;text-transform:none}
-@media (max-width:900px){
-  .steps-stage{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:18px;padding:80px var(--pad) 90px;align-items:start}
-  .steps-media{order:-1;height:30vh}
-  .steps-list .h2{font-size:36px;margin:8px 0 14px}
-  .step{padding:14px 0}.step-h{font-size:26px;gap:12px}.step-h .label{min-width:40px}
-  .step-body p{padding-left:52px;font-size:14px}
-  .steps-foot{display:none}
-}
-
-/* ---------- 5. gallery ---------- */
+/* ---------- 3. gallery ---------- */
 .gallery{position:relative;background:var(--navy)}
+.gallery::before{content:"";position:absolute;left:0;right:0;top:-40vh;height:40vh;background:linear-gradient(rgba(7,20,51,0),var(--navy));pointer-events:none}
 .gallery-intro{display:grid;grid-template-columns:1.3fr 1fr;gap:6vw;align-items:end;padding:20vh var(--pad) 4vh}
 .gallery-intro p{color:var(--muted);max-width:44ch}
 .gallery-stage{overflow:hidden;padding:6vh 0 18vh}
@@ -186,20 +119,7 @@ main{position:relative;z-index:1}
   .shot.p .frame{height:48vh}.shot.l .frame{height:34vh}.shot.w .frame{height:40vh}
 }
 
-/* ---------- 6. world + departures ---------- */
-.world{position:relative;background:var(--ink);overflow:hidden}
-.world-stage{position:relative;height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 var(--pad)}
-.world-big{position:absolute;left:0;bottom:-3vw;font-family:var(--serif);font-weight:500;font-size:34vw;line-height:.8;color:transparent;-webkit-text-stroke:1px rgba(243,238,228,.13);white-space:nowrap;pointer-events:none}
-.world-left{display:flex;align-items:center;gap:22px;justify-self:end;margin-right:4vw}
-.world-left .h2{font-size:clamp(34px,3.6vw,64px)}
-.world-left svg{width:34px;flex:none}
-.cities{--h:clamp(46px,5.4vw,96px);height:calc(var(--h)*5);overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
-.cities ul{list-style:none;will-change:transform}
-.cities li{height:var(--h);line-height:var(--h);font-family:var(--serif);font-weight:500;font-size:calc(var(--h)*.78);color:rgba(243,238,228,.22);transition:color .4s}
-.cities li.on{color:var(--cream)}
-@media (max-width:767px){.world-stage{grid-template-columns:1fr;align-content:center;gap:5vh}.world-left{justify-self:start}.cities{--h:54px}}
-
-/* ---------- 7. signup / boarding pass ---------- */
+/* ---------- 4. signup / boarding pass ---------- */
 .signup{position:relative;background:var(--navy);padding:18vh var(--pad) 16vh;overflow:hidden}
 .signup-bg{position:absolute;inset:0;background:url(assets/nori.jpg) center 40%/cover;opacity:.22}
 .signup-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--ink) 0%,rgba(7,20,51,.6) 40%,var(--navy) 100%)}
@@ -266,14 +186,12 @@ main{position:relative;z-index:1}
 </head>
 <body>
 
-<div class="loader" aria-hidden="true"><video src="assets/logo-intro.mp4" muted playsinline autoplay preload="auto"></video></div>
 <div class="cursor" aria-hidden="true"></div>
 
 <header class="nav">
   <nav class="nav-links" aria-label="Navigare">
-    <a href="#pasi">Cum funcționează</a>
     <a href="#comunitate">Comunitate</a>
-    <a href="#destinatii">Destinații</a>
+    <a href="#inscriere">Înscriere</a>
   </nav>
   <a class="nav-logo" href="#top" aria-label="Călătorul Antreprenor, sus"><img src="assets/logo-mark.png" alt="Călătorul Antreprenor"></a>
   <div class="nav-meta label"><span data-timer-label>Webinarul începe în</span> <span data-timer>05:00</span></div>
@@ -291,77 +209,25 @@ main{position:relative;z-index:1}
     <div class="hero-stage">
       <div class="cabin"><img src="assets/hublou.jpg" alt=""></div>
       <div class="hero-shade"></div>
-      <div class="hero-top label"><span>Webinar gratuit · Clubul Călătorul Antreprenor</span><span>Zilnic · înregistrat &nbsp;/&nbsp; Joi · LIVE</span></div>
       <div class="hero-copy">
         <div class="hero-timer"><i></i><span data-timer-label>Webinarul începe în</span><b data-timer>05:00</b></div>
-        <h1 class="hero-title"><span class="line"><span>Vrei să fii plătit</span></span><span class="line"><span>să călătorești?</span></span></h1>
-        <p class="hero-sub">Participă la webinar și descoperă cum arată afacerea care te trimite în vacanță.</p>
+        <h1 class="hero-title"><span class="line"><span>O comunitate de români</span></span><span class="line"><span>cum nu ai mai văzut…</span></span></h1>
+        <ul class="hero-list">
+          <li>Călătorești mai mult</li>
+          <li>Îți faci prieteni noi,</li>
+          <li>Înveți / te dezvolți</li>
+          <li>Și creezi o sursă de venit</li>
+        </ul>
       </div>
       <div class="hero-hint label"><i></i><span>Scroll<br>pentru îmbarcare</span></div>
     </div>
   </section>
 
-  <!-- 2. Manifest + topics over the clouds -->
+  <!-- 2. Manifest over the clouds -->
   <section class="manifest">
     <p class="manifest-text" data-words>Călătorul Antreprenor este clubul în care peste <b class="gold">700 de români</b> stau în resorturi de 4 și 5 stele, descoperă lumea împreună și își transformă recomandările în vacanțe plătite. Nu e noroc. E o metodă.</p>
   </section>
-  <section class="topics">
-    <div class="topics-brand" data-reveal>
-      <img src="assets/logo-mark.png" alt="">
-      <div class="label">Ce vei afla<br>la webinar</div>
-    </div>
-    <div class="topics-grid">
-      <div class="topic" data-reveal><h3>Ce beneficii ai ca membru</h3><hr><p>Acces la mii de oferte la resorturi și hoteluri de 4 și 5 stele, rezervate prin club.</p></div>
-      <div class="topic" data-reveal><h3>Metodele pentru vacanțe plătite</h3><hr><p>Ce fac, concret, membrii clubului ca să ajungă să aibă vacanțele plătite.</p></div>
-      <div class="topic" data-reveal><h3>Cum te înscrii în club</h3><hr><p>Ce presupune să devii membru și de unde începi, chiar dacă n-ai mai făcut asta până acum.</p></div>
-      <div class="topic" data-reveal><h3>Ce spun cei din club</h3><hr><p>Povești reale de la românii care călătoresc și câștigă împreună.</p></div>
-    </div>
-  </section>
-
-  <!-- 3. Plane -->
-  <section class="plane">
-    <div class="plane-stage">
-      <div class="pw pw-l">Plătit să</div>
-      <div class="pw pw-r">călătorești</div>
-      <div class="plane-card"><img src="assets/avion.jpg" alt="Avion pe pistă, gata de decolare"></div>
-      <div class="plane-head"><span class="label">Pentru românii care vor mai mult</span><h2 class="h2">Clasa Întâi</h2></div>
-      <div class="plane-copy"><span class="label">Călătoria ca stil de viață</span>O singură vacanță pe an nu e un stil de viață. În club pleci alături de o comunitate în Dubai, Bali, Marrakesh sau Cancun și înveți un model prin care drumurile tale se pot plăti din recomandări.</div>
-      <div class="plane-specs">
-        <div class="spec"><span class="label">Români în club</span><b>700</b></div>
-        <div class="spec"><span class="label">Vacanțe plătite</span><b>100+</b></div>
-        <div class="spec"><span class="label">Câștiguri lunare</span><b>30+</b></div>
-        <div class="spec"><span class="label">Tururi mondiale</span><b>15</b></div>
-        <div class="spec"><span class="label">Resorturi</span><b>4–5★</b></div>
-        <div class="spec"><span class="label">Webinar</span><b>Gratuit</b></div>
-      </div>
-      <div class="plane-side"><span class="label">Programul prezentărilor</span><b>Zilnic, înregistrat<br>Joi, LIVE</b></div>
-    </div>
-  </section>
-
-  <!-- 4. How it works -->
-  <section class="steps" id="pasi">
-    <div class="steps-stage">
-      <div class="steps-list">
-        <span class="label">Cum funcționează</span>
-        <h2 class="h2">Vacanțe plătite în 3 pași simpli</h2>
-        <div class="step"><div class="step-h"><span class="label">01</span>Devii membru<span class="pm">+</span></div><div class="step-body"><div><p>Ai acces la mii de oferte la resorturi și hoteluri de 4 și 5 stele.</p></div></div></div>
-        <div class="step"><div class="step-h"><span class="label">02</span>Promovezi<span class="pm">+</span></div><div class="step-body"><div><p>Arăți și altor persoane cum pot călători mai mult și mai avantajos.</p></div></div></div>
-        <div class="step"><div class="step-h"><span class="label">03</span>Câștigi<span class="pm">+</span></div><div class="step-body"><div><p>Recomandările tale se transformă în comisioane și vacanțe plătite.</p></div></div></div>
-      </div>
-      <figure class="steps-media">
-        <img src="assets/comunitate/marrakesh-piscina.jpg" alt="Membri ai clubului la piscină, Marrakesh">
-        <img src="assets/comunitate/dubai-cina.jpg" alt="Cină de grup în Dubai Marina">
-        <img src="assets/comunitate/dubai-barca.jpg" alt="Membri ai clubului pe barcă în Dubai Marina">
-        <figcaption class="label">Membrii clubului · fotografii reale</figcaption>
-      </figure>
-    </div>
-    <div class="steps-foot label">
-      <span>Comunitate<b>700</b></span>
-      <span>Acum în România<b data-clock>--:--</b></span>
-    </div>
-  </section>
-
-  <!-- 5. Community gallery -->
+  <!-- 3. Community gallery -->
   <section class="gallery" id="comunitate">
     <div class="gallery-intro">
       <h2 class="h2" data-reveal>O comunitate diferită</h2>
@@ -370,19 +236,7 @@ main{position:relative;z-index:1}
     <div class="gallery-stage"><div class="track"></div></div>
   </section>
 
-  <!-- 6. Destinations -->
-  <section class="world" id="destinatii">
-    <div class="world-stage">
-      <div class="world-big" aria-hidden="true">Oriunde</div>
-      <div class="world-left">
-        <h2 class="h2">Zbori oriunde</h2>
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
-      </div>
-      <div class="cities"><ul></ul></div>
-    </div>
-  </section>
-
-  <!-- 7. Signup -->
+  <!-- 4. Signup -->
   <section class="signup" id="inscriere">
     <div class="signup-bg" aria-hidden="true"></div>
     <div class="signup-grid">
@@ -456,15 +310,14 @@ const SHOTS = [
   ['p','bali-porti','Porți de templu · Bali'],
   ['l','malaezia','Templu tradițional · Malaezia'],
   ['l','marrakesh-piscina','La piscină · Marrakesh'],
+  ['p','dubai-cina','Cină de grup · Dubai Marina'],
 ];
-const CITIES = ['Dubai','Algarve','Marrakesh','Phuket','Bali','Cebu Mactan','Cancun','Londra','Sinaia','Praga','Madrid','Barcelona','Roma','Paris'];
 const COUNTRIES = 'România 40|Statele Unite 1|Regatul Unit 44|Spania 34|Italia 39|Franța 33|Germania 49|Austria 43|Elveția 41|Belgia 32|Olanda 31|Portugalia 351|Grecia 30|Ungaria 36|Polonia 48|Cehia 420|Slovacia 421|Luxemburg 352|Irlanda 353|Danemarca 45|Suedia 46|Norvegia 47|Finlanda 358|Estonia 372|Letonia 371|Lituania 370|Bulgaria 359|Croația 385|Slovenia 386|Serbia 381|Muntenegru 382|Macedonia 389|Albania 355|Turcia 90|Emiratele Arabe 971|Arabia Saudită 966|Egipt 20|Israel 972|Australia 61|Noua Zeelandă 64|China 86|Japonia 81|Coreea de Sud 82|India 91|Brazilia 55|Mexic 52|Argentina 54|Chile 56|Columbia 57|Africa de Sud 27';
 
 // rendered twice so the CSS marquee can loop at -50%
 const shots = hidden => SHOTS.map(([k,f,c],i)=>
   `<figure class="shot ${k}"${hidden?' aria-hidden="true"':''}><div class="frame"><img src="assets/comunitate/${f}.jpg" alt="${hidden?'':c}"></div><figcaption class="label"><span>${String(i+1).padStart(2,'0')}</span><span>${c}</span></figcaption></figure>`).join('');
 $('.track').innerHTML = shots(false) + shots(true);
-$('.cities ul').innerHTML = CITIES.map(c=>`<li>${c}</li>`).join('');
 $('#tara').insertAdjacentHTML('beforeend', COUNTRIES.split('|').map(s=>{const [n,p]=s.split(/ (?=\d+$)/);return `<option value="${n}" data-p="+${p}">${n} (+${p})</option>`}).join(''));
 
 /* manifest: one span per word for the scroll fill */
@@ -498,65 +351,28 @@ const cabinImg = $('.cabin img'), skyImg = $('.sky img');
 const zoomTo = () => Math.max(innerWidth/(cabinImg.offsetWidth*.49), innerHeight/(cabinImg.offsetHeight*.52))*1.12;
 gsap.timeline({scrollTrigger:{trigger:'.hero',start:'top top',end:'+=160%',scrub:1,pin:true,invalidateOnRefresh:true}})
   .to('.hero-copy',{yPercent:-45,opacity:0,ease:'power1.in',duration:.35},0)
-  .to('.hero-top,.hero-hint,.hero-shade',{opacity:0,duration:.2},0)
+  .to('.hero-hint,.hero-shade',{opacity:0,duration:.2},0)
   .fromTo('.cabin',{scale:1},{scale:zoomTo,ease:'power2.in',duration:1},0)
   .fromTo(skyImg,{scale:1.35},{scale:1.06,ease:'power1.inOut',duration:1},0)
   .to('.cabin',{autoAlpha:0,duration:.1},.9);
 
 /* ---------- 2. manifest fill + blue tint ---------- */
 gsap.to('.manifest-text span',{opacity:1,stagger:.1,ease:'none',scrollTrigger:{trigger:'.manifest-text',start:'top 78%',end:'bottom 42%',scrub:true}});
-gsap.to('.sky-tint',{opacity:1,ease:'none',scrollTrigger:{trigger:'.manifest',start:'top 60%',endTrigger:'.topics',end:'bottom bottom',scrub:true}});
+gsap.to('.sky-tint',{opacity:1,ease:'none',scrollTrigger:{trigger:'.manifest',start:'top 60%',end:'bottom 70%',scrub:true}});
 gsap.to(skyImg,{yPercent:-6,ease:'none',scrollTrigger:{trigger:'.manifest',start:'top bottom',end:'+=200%',scrub:true}});
-ScrollTrigger.create({trigger:'.plane',start:'top top',onEnter:()=>gsap.set('.sky',{visibility:'hidden'}),onLeaveBack:()=>gsap.set('.sky',{visibility:'visible'})});
+ScrollTrigger.create({trigger:'.gallery',start:'top top',onEnter:()=>gsap.set('.sky',{visibility:'hidden'}),onLeaveBack:()=>gsap.set('.sky',{visibility:'visible'})});
 
 $$('[data-reveal]').forEach(el=>gsap.from(el,{y:50,opacity:0,duration:1.2,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none reverse'}}));
 
-/* ---------- 3. plane rises, words part, specs land ---------- */
-const mm = gsap.matchMedia();
-mm.add({desk:'(min-width:768px)',mob:'(max-width:767px)'}, ctx=>{
-  const {desk} = ctx.conditions;
-  gsap.timeline({scrollTrigger:{trigger:'.plane',start:'top top',end:'+=280%',scrub:1,pin:true}})
-    .fromTo('.plane-card',{yPercent:100,scale:.5},{yPercent:0,scale:1,ease:'power2.out',duration:1})
-    .fromTo('.plane-card img',{scale:1.3},{scale:1,ease:'none',duration:1.8},0)
-    .to('.pw-l',{xPercent:-30,opacity:0,ease:'power1.in',duration:.6},1.05)
-    .to('.pw-r',{xPercent:30,opacity:0,ease:'power1.in',duration:.6},1.05)
-    .to('.plane-card',{scale:desk?.68:.5,yPercent:desk?6:-8,ease:'power2.inOut',duration:.8},1.1)
-    .from('.plane-head>*',{y:50,opacity:0,stagger:.08,duration:.6},1.4)
-    .from('.plane-copy,.plane-side',{y:30,opacity:0,duration:.6},1.5)
-    .from('.spec',{y:30,opacity:0,stagger:.06,duration:.5},1.55)
-    .to({}, {duration:.4});
-});
-
-/* ---------- 4. steps driven by scroll, clickable ---------- */
-const steps = $$('.step'), stepImgs = $$('.steps-media img');
-let cur = -1;
-const setStep = i => { if(i===cur) return; cur=i;
-  steps.forEach((s,k)=>s.classList.toggle('active',k===i)); stepImgs.forEach((m,k)=>m.classList.toggle('active',k===i)); };
-setStep(0);
-const stepsST = ScrollTrigger.create({trigger:'.steps',start:'top top',end:'+=210%',pin:true,
-  onUpdate:s=>{ const p=s.progress*3; setStep(Math.min(2,Math.floor(p))); steps.forEach((el,k)=>el.style.setProperty('--p',gsap.utils.clamp(0,1,p-k))); }});
-steps.forEach((s,k)=>s.addEventListener('click',()=>scrollToY(stepsST.start+(stepsST.end-stepsST.start)*(k+.5)/3)));
-
-/* ---------- 6. rolling city list ---------- */
-const cityUl = $('.cities ul'), cityLis = $$('.cities li'), cityPos = {i:0};
-const drawCities = () => { const h=cityLis[0].offsetHeight, r=Math.round(cityPos.i);
-  cityUl.style.transform = `translateY(${(2-cityPos.i)*h}px)`; cityLis.forEach((l,k)=>l.classList.toggle('on',k===r)); };
-drawCities();
-gsap.to(cityPos,{i:cityLis.length-1,ease:'none',onUpdate:drawCities,scrollTrigger:{trigger:'.world-stage',start:'top top',end:'+=160%',pin:true,scrub:.6}});
-gsap.fromTo('.world-big',{xPercent:4},{xPercent:-38,ease:'none',scrollTrigger:{trigger:'.world',start:'top bottom',end:'bottom top',scrub:true}});
-addEventListener('resize',drawCities);
-
-/* ---------- 7. signup ---------- */
+/* ---------- 4. signup ---------- */
 // "starts in 5 min": one countdown per browser tab, shared with webinar.html via sessionStorage
 let ends = 0;
 try { ends = +sessionStorage.getItem('ca_ends'); if (!ends) sessionStorage.setItem('ca_ends', ends = Date.now()+5*60*1000); } catch { ends = Date.now()+5*60*1000; }
-const clockFmt = new Intl.DateTimeFormat('ro-RO',{timeZone:'Europe/Bucharest',hour:'2-digit',minute:'2-digit'});
 function tick(){
   const s = Math.max(0,Math.ceil((ends-Date.now())/1000)), mm = String(s/60|0).padStart(2,'0'), ss = String(s%60).padStart(2,'0');
   $$('[data-timer]').forEach(e=>e.textContent = s ? mm+':'+ss : (e.dataset.done || 'intră acum'));
   $('[data-mm]').textContent = mm; $('[data-ss]').textContent = ss;
   if (!s) $$('[data-timer-label]').forEach(e=>e.textContent = 'Webinarul a început');
-  $('[data-clock]').textContent = clockFmt.format(new Date());
 }
 tick(); setInterval(tick,1000);
 
@@ -580,38 +396,23 @@ ScrollTrigger.create({trigger:'#inscriere',start:'top 75%',end:'bottom 25%',
 if (matchMedia('(pointer:fine)').matches){
   const c = $('.cursor'), cx = gsap.quickTo(c,'x',{duration:.35,ease:'power3'}), cy = gsap.quickTo(c,'y',{duration:.35,ease:'power3'});
   addEventListener('pointermove',e=>{ cx(e.clientX); cy(e.clientY); c.style.opacity=1; });
-  document.addEventListener('pointerover',e=>c.classList.toggle('hover',!!e.target.closest('a,button,.step,select')));
+  document.addEventListener('pointerover',e=>c.classList.toggle('hover',!!e.target.closest('a,button,select')));
 }
 
-/* ---------- loader → intro ---------- */
+/* ---------- intro ---------- */
 function intro(){
   return gsap.timeline()
     .from('.cabin img',{scale:1.22,duration:2.4,ease:'expo.out'},0)
     .from('.hero-title .line>span',{yPercent:110,duration:1.5,ease:'expo.out',stagger:.12},.25)
-    .from('.hero-timer,.hero-sub,.hero-top>*,.hero-hint>*',{opacity:0,y:18,duration:1.1,stagger:.08,ease:'power2.out'},.7)
+    .from('.hero-timer,.hero-list li,.hero-hint>*',{opacity:0,y:18,duration:1.1,stagger:.1,ease:'power2.out'},.6)
     .from('.nav',{opacity:0,duration:1},.7)
     .add(()=>$('.cta').classList.remove('is-hidden'),1.1);
 }
-const loader = $('.loader'), vid = loader.querySelector('video');
-let started = false;
-function start(){
-  if (started) return; started = true;
-  gsap.timeline()
-    .to(loader,{yPercent:-100,duration:1.1,ease:'expo.inOut'})
-    .add(intro(),'-=.55')
-    .add(()=>{ loader.remove(); lenis?.start(); ScrollTrigger.refresh(); goHash(); },'-=1.6');
-}
 // arriving with a #section (e.g. back from webinar.html) jumps there once the page is laid out
 const goHash = () => { const t = location.hash && $(location.hash); if (t) scrollToY(t.getBoundingClientRect().top + scrollY); };
-if (reduce) { loader.remove(); lenis?.start(); $('.cta').classList.remove('is-hidden'); addEventListener('load',goHash); }
-else {
-  vid.addEventListener('ended',start);
-  vid.addEventListener('error',start);
-  loader.addEventListener('click',start);
-  vid.play?.().catch(()=>setTimeout(start,600));
-  setTimeout(start,4200);
-}
-addEventListener('load',()=>ScrollTrigger.refresh());
+lenis?.start();
+if (reduce) $('.cta').classList.remove('is-hidden'); else intro();
+addEventListener('load',()=>{ ScrollTrigger.refresh(); goHash(); });
 </script>
 </body>
 </html>
