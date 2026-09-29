@@ -127,7 +127,44 @@ main{position:relative;z-index:1}
   .polaroid{width:62vw}
 }
 
-/* ---------- 4. signup / boarding pass ---------- */
+/* ---------- 4. world tours route: a plane flies the dotted line ---------- */
+.tours{position:relative;padding:16vh 0 8vh;overflow:hidden;background:radial-gradient(70% 40% at 20% 30%,rgba(30,63,160,.28),transparent 70%),radial-gradient(60% 40% at 85% 75%,rgba(30,63,160,.22),transparent 70%),var(--navy)}
+.tours-intro{max-width:900px;margin:0 auto 10vh;padding:0 var(--pad);text-align:center}
+.tours-intro .h2{margin:16px 0 18px;text-wrap:balance}
+.tours-intro p{color:var(--muted)}
+.tours-body{position:relative;max-width:1320px;margin:0 auto;padding:6vh var(--pad) 18vh}
+.tours-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.tours-base{fill:none;stroke:rgba(243,238,228,.24);stroke-width:1.5;stroke-dasharray:1 10;stroke-linecap:round}
+.tours-drawn{fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round}
+.tours-stops circle{fill:var(--navy);stroke:rgba(216,192,138,.55);stroke-width:1.5;transition:fill .5s,stroke .5s}
+.tours-stops circle.on{fill:var(--gold);stroke:var(--gold)}
+.tours-plane{position:absolute;left:0;top:0;z-index:3;width:40px;height:40px;margin:-20px 0 0 -20px;fill:var(--cream);filter:drop-shadow(0 0 14px rgba(216,192,138,.75));will-change:transform}
+.stops{position:relative;z-index:1}
+.stop{width:42%;margin-bottom:16vh}
+.stop:nth-child(even){margin-left:auto}
+.stop:last-child{margin-bottom:0}
+.stop-media{aspect-ratio:16/10;border-radius:14px;overflow:hidden;background:#0c1a44;box-shadow:0 40px 90px rgba(0,0,0,.45);clip-path:inset(14% round 14px);opacity:.25;transition:clip-path 1.4s cubic-bezier(.2,.8,.2,1),opacity 1s}
+.stop.in .stop-media{clip-path:inset(0 round 14px);opacity:1}
+.stop-media img{width:100%;height:100%;object-fit:cover;transform:scale(1.18);transition:transform 2.2s cubic-bezier(.2,.8,.2,1)}
+.stop.in .stop-media img{transform:none}
+.stop:hover .stop-media img{transform:scale(1.04)}
+.stop-info{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-top:20px}
+.stop-info .label{display:block;margin-bottom:10px;color:var(--gold)}
+.stop-info h3{font-family:var(--serif);font-weight:500;font-size:clamp(40px,4.4vw,72px);line-height:.95}
+.when{text-align:right;font-family:var(--mono);font-size:13px;letter-spacing:.06em;white-space:nowrap}
+.when span{display:block;margin-bottom:6px;color:var(--muted);font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.stop-info>*,.when{opacity:0;transform:translateY(20px);transition:opacity .9s .25s,transform .9s .25s cubic-bezier(.2,.8,.2,1)}
+.stop.in .stop-info>*,.stop.in .when{opacity:1;transform:none}
+@media (max-width:767px){
+  .tours-body{padding-left:60px}
+  .stop{width:100%;margin-bottom:11vh}
+  .stop:nth-child(even){margin-left:0}
+  .stop-info{flex-direction:column;align-items:flex-start;gap:10px}
+  .when{text-align:left}
+  .tours-plane{width:32px;height:32px;margin:-16px 0 0 -16px}
+}
+
+/* ---------- 5. signup / boarding pass ---------- */
 .signup{position:relative;background:var(--navy);padding:18vh var(--pad) 16vh;overflow:hidden}
 .signup-bg{position:absolute;inset:0;background:url(assets/nori.jpg) center 40%/cover;opacity:.22}
 .signup-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--ink) 0%,rgba(7,20,51,.6) 40%,var(--navy) 100%)}
@@ -199,6 +236,7 @@ main{position:relative;z-index:1}
 <header class="nav">
   <nav class="nav-links" aria-label="Navigare">
     <a href="#comunitate">Comunitate</a>
+    <a href="#destinatii">Destinații</a>
     <a href="#inscriere">Înscriere</a>
   </nav>
   <a class="nav-logo" href="#top" aria-label="Călătorul Antreprenor, sus"><img src="assets/logo-mark.png" alt="Călătorul Antreprenor"></a>
@@ -244,7 +282,21 @@ main{position:relative;z-index:1}
     <div class="gallery-stage"><div class="track"></div></div>
   </section>
 
-  <!-- 4. Signup -->
+  <!-- 4. World tours route -->
+  <section class="tours" id="destinatii">
+    <div class="tours-intro">
+      <span class="label" style="color:var(--gold)">Tururi mondiale · 2026 – 2027</span>
+      <h2 class="h2" data-reveal>Unde ai putea să vii cu noi</h2>
+      <p data-reveal>Plecări în grup, alături de comunitate. Dă scroll și urmărește avionul.</p>
+    </div>
+    <div class="tours-body">
+      <svg class="tours-svg" aria-hidden="true"><path class="tours-base"/><path class="tours-drawn"/><g class="tours-stops"></g></svg>
+      <svg class="tours-plane" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
+      <div class="stops"></div>
+    </div>
+  </section>
+
+  <!-- 5. Signup -->
   <section class="signup" id="inscriere">
     <div class="signup-bg" aria-hidden="true"></div>
     <div class="signup-grid">
@@ -377,7 +429,49 @@ ScrollTrigger.create({trigger:'.gallery',start:'top top',onEnter:()=>gsap.set('.
 
 $$('[data-reveal]').forEach(el=>gsap.from(el,{y:50,opacity:0,duration:1.2,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none reverse'}}));
 
-/* ---------- 4. signup ---------- */
+/* ---------- 4. world tours route ---------- */
+// [image, destination, place, period] in date order; dates from the Travorium World Tours list
+const TOURS = [
+  ['shanghai','Shanghai','China','7 – 13 Decembrie 2026'],
+  ['dubai','Dubai','Emiratele Arabe Unite','8 – 13 Decembrie 2026'],
+  ['danang','Vietnam','Da Nang','8 – 13 Decembrie 2026'],
+  ['las-vegas','Las Vegas','SUA','16 – 20 Decembrie 2026'],
+  ['bali','Bali','Indonezia','12 – 17 Ianuarie 2027'],
+  ['phuket','Phuket','Thailanda','19 – 24 Ianuarie 2027'],
+  ['cancun','Cancun','Mexic','21 – 25 Aprilie 2027'],
+];
+$('.stops').innerHTML = TOURS.map(([f,city,place,when],i)=>
+  `<article class="stop"><div class="stop-media"><img src="assets/destinatii/${f}.jpg" alt="${city}, ${place}" loading="lazy"></div><div class="stop-info"><div><span class="label">${String(i+1).padStart(2,'0')} · ${place}</span><h3>${city}</h3></div><p class="when"><span>Perioada</span>${when}</p></div></article>`).join('');
+const routeBody = $('.tours-body'), routeDrawn = $('.tours-drawn'), plane = $('.tours-plane'), stopEls = $$('.stop');
+let routeLen = 1, stopY = [];
+const route = {l:0};
+// the line snakes down the middle (left edge on phones), bulging to alternate sides between stops
+function buildRoute(){
+  const W = routeBody.offsetWidth, H = routeBody.offsetHeight, mob = W < 768, cx = mob ? 28 : W/2, A = mob ? 12 : W*.17;
+  const pts = [[cx,0], ...stopEls.map(s=>[cx, s.offsetTop + s.firstElementChild.offsetHeight/2]), [cx,H]];
+  let d = `M${cx} 0`;
+  for (let i=1;i<pts.length;i++){ const [x0,y0]=pts[i-1], [x1,y1]=pts[i], dy=(y1-y0)/2, b=(i%2?1:-1)*A; d += ` C${x0+b} ${y0+dy} ${x1+b} ${y1-dy} ${x1} ${y1}`; }
+  $('.tours-svg').setAttribute('viewBox',`0 0 ${W} ${H}`);
+  $('.tours-base').setAttribute('d',d); routeDrawn.setAttribute('d',d);
+  routeLen = routeDrawn.getTotalLength(); routeDrawn.style.strokeDasharray = routeLen;
+  stopY = pts.slice(1,-1).map(p=>p[1]);
+  $('.tours-stops').innerHTML = pts.slice(1,-1).map(([x,y])=>`<circle cx="${x}" cy="${y}" r="7"/>`).join('');
+  route.l = Math.min(route.l, routeLen); drawRoute();
+}
+function drawRoute(){
+  const l2 = Math.max(1, Math.min(routeLen, route.l+1)), p = routeDrawn.getPointAtLength(l2-1), q = routeDrawn.getPointAtLength(l2);
+  plane.style.transform = `translate(${p.x}px,${p.y}px) rotate(${Math.atan2(q.y-p.y,q.x-p.x)*180/Math.PI+90}deg)`;
+  routeDrawn.style.strokeDashoffset = routeLen - route.l;
+  $$('.tours-stops circle').forEach((c,i)=>c.classList.toggle('on', p.y >= stopY[i]-2));
+}
+// the path only ever moves downward, so binary-search the length whose point sits at a given height
+const lenAtY = y => { let lo=0, hi=routeLen; for (let k=0;k<24;k++){ const m=(lo+hi)/2; routeDrawn.getPointAtLength(m).y < y ? lo=m : hi=m; } return lo; };
+const flyTo = gsap.quickTo(route,'l',{duration:.7,ease:'power3',onUpdate:drawRoute});
+buildRoute();
+ScrollTrigger.create({trigger:routeBody,start:'top 55%',end:'bottom 55%',onRefresh:buildRoute,onUpdate:s=>flyTo(lenAtY(s.progress*routeBody.offsetHeight))});
+stopEls.forEach(s=>ScrollTrigger.create({trigger:s,start:'top 85%',onEnter:()=>s.classList.add('in'),onLeaveBack:()=>s.classList.remove('in')}));
+
+/* ---------- 5. signup ---------- */
 // "starts in 5 min": one countdown per browser tab, shared with webinar.html via sessionStorage
 let ends = 0;
 try { ends = +sessionStorage.getItem('ca_ends'); if (!ends) sessionStorage.setItem('ca_ends', ends = Date.now()+5*60*1000); } catch { ends = Date.now()+5*60*1000; }
