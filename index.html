@@ -46,15 +46,22 @@ button,input,select{font:inherit;color:inherit}
 .cursor{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid #fff;border-radius:50%;pointer-events:none;z-index:120;mix-blend-mode:difference;transition:width .35s,height .35s,margin .35s,background-color .35s;opacity:0}
 .cursor.hover{width:70px;height:70px;margin:-35px 0 0 -35px;background:#fff}
 @media (pointer:coarse){.cursor{display:none}}
-/* pulsing "keep going" arrow */
-.cue{display:inline-flex;flex-direction:column;align-items:center;gap:14px;color:var(--cream)}
-.cue-ring{width:56px;height:56px;border-radius:50%;border:1px solid rgba(243,238,228,.6);display:grid;place-items:center;animation:ring 2s ease-out infinite}
-.cue-ring svg{width:20px;height:20px;animation:bob 2s ease-in-out infinite}
-.cue .label{color:var(--muted)}
-@keyframes ring{0%{box-shadow:0 0 0 0 rgba(216,192,138,.6)}70%,100%{box-shadow:0 0 0 18px rgba(216,192,138,0)}}
-@keyframes bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(4px)}}
 
-/* ---------- fixed sky (seen through the window, then behind the manifest) ---------- */
+/* ---------- the flight: one plane, one dotted line through every section ---------- */
+.leg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:-1}
+.leg-base{fill:none;stroke:rgba(243,238,228,.3);stroke-width:1.5;stroke-dasharray:1 10;stroke-linecap:round}
+.leg-drawn{fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round}
+.leg-stops circle{fill:var(--navy);stroke:rgba(216,192,138,.55);stroke-width:1.5;transition:fill .5s,stroke .5s}
+.leg-stops circle.on{fill:var(--gold);stroke:var(--gold)}
+.flight{position:fixed;left:0;top:0;z-index:30;width:42px;height:42px;margin:-21px 0 0 -21px;pointer-events:none;will-change:transform}
+.flight-ico{position:relative;width:100%;height:100%}
+.flight svg{width:100%;height:100%;fill:var(--cream);filter:drop-shadow(0 0 14px rgba(216,192,138,.8));transition:opacity .4s}
+.flight.docked svg{opacity:0}
+.flight.idle .flight-ico::after{content:"";position:absolute;inset:-12px;border-radius:50%;animation:ring 2s ease-out infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(216,192,138,.6)}70%,100%{box-shadow:0 0 0 18px rgba(216,192,138,0)}}
+@media (max-width:767px){.flight{width:30px;height:30px;margin:-15px 0 0 -15px}}
+
+/* ---------- fixed sky (seen through the window, then during the transition) ---------- */
 .sky{position:fixed;inset:0;z-index:0;overflow:hidden;background:#4a4f6e}
 .sky img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;transform-origin:50% 45%}
 .sky-tint{position:absolute;inset:0;opacity:0;background:linear-gradient(180deg,rgba(11,30,79,.5) 0%,rgba(30,63,160,.7) 40%,var(--navy) 100%)}
@@ -63,37 +70,31 @@ main{position:relative;z-index:1}
 /* ---------- 1. hero / window ---------- */
 .hero{position:relative;height:100vh}
 .hero-stage{position:relative;height:100vh;overflow:hidden}
+.hero .leg{z-index:auto}
 .cabin{position:absolute;inset:0;background:#0a0706;will-change:transform;
   -webkit-mask-image:var(--hole),linear-gradient(#000 0 0);-webkit-mask-size:var(--iw) var(--ih),100% 100%;-webkit-mask-position:center;-webkit-mask-repeat:no-repeat;-webkit-mask-composite:xor;
   mask-image:var(--hole),linear-gradient(#000 0 0);mask-size:var(--iw) var(--ih),100% 100%;mask-position:center;mask-repeat:no-repeat;mask-composite:exclude}
 .cabin img{position:absolute;left:50%;top:50%;width:var(--iw);height:var(--ih);max-width:none;margin:calc(var(--ih)/-2) 0 0 calc(var(--iw)/-2);
   -webkit-mask-image:radial-gradient(closest-side,#000 80%,transparent);mask-image:radial-gradient(closest-side,#000 80%,transparent)}
-.hero-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(4,11,31,.92) 0%,rgba(4,11,31,.5) 38%,rgba(4,11,31,0) 65%)}
-.hero-copy{position:absolute;left:0;right:0;bottom:clamp(150px,23vh,220px);text-align:center;padding:0 var(--pad)}
-.hero-title{font-family:var(--serif);font-weight:500;font-size:clamp(48px,7.6vw,150px);line-height:.95;letter-spacing:-.015em;text-shadow:0 6px 50px rgba(4,11,31,.55)}
+.hero-shade{position:absolute;inset:0;pointer-events:none;background:radial-gradient(70% 45% at 50% 52%,rgba(4,11,31,.55),rgba(4,11,31,0) 70%),linear-gradient(to top,rgba(4,11,31,.7) 0%,rgba(4,11,31,0) 40%)}
+.hero-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 var(--pad)}
+.hero-title{font-family:var(--serif);font-weight:500;font-size:clamp(48px,7.6vw,150px);line-height:.95;letter-spacing:-.015em;text-shadow:0 6px 50px rgba(4,11,31,.6)}
 .hero-title .line{display:block;overflow:hidden;padding-bottom:.06em}
 .hero-title .line>span{display:inline-block;text-wrap:balance}
-.hero-cue{position:absolute;left:50%;bottom:clamp(26px,5vh,48px);transform:translateX(-50%)}
-@media (max-width:767px){.hero-title{font-size:13vw}.hero-copy{bottom:170px}}
+.flight-anchor{width:1px;height:clamp(70px,9vh,96px)}
+.hero-more{margin-top:clamp(18px,3vh,30px);color:var(--muted)}
+@media (max-width:767px){.hero-title{font-size:13vw}}
 
-/* ---------- 2. manifest ---------- */
-.manifest{position:relative;padding:16vh var(--pad) 28vh}
-.manifest::after{content:"";position:absolute;left:0;right:0;bottom:0;height:26vh;background:linear-gradient(rgba(7,20,51,0),var(--navy));pointer-events:none}
-.manifest-text{font-family:var(--serif);font-weight:500;font-size:clamp(34px,4.9vw,92px);line-height:1.02;letter-spacing:-.012em;max-width:1500px}
-.manifest-text .gold{color:var(--gold)}
+/* ---------- 2. transition through the clouds ---------- */
+.transit{position:relative;height:70vh;isolation:isolate}
+.transit::after{content:"";position:absolute;left:0;right:0;bottom:0;height:40vh;z-index:-2;background:linear-gradient(rgba(7,20,51,0),var(--navy));pointer-events:none}
 
-/* ---------- 3. world tours route: a plane flies the dotted line ---------- */
-.tours{position:relative;padding:12vh 0 8vh;overflow:hidden;background:radial-gradient(70% 40% at 20% 30%,rgba(30,63,160,.28),transparent 70%),radial-gradient(60% 40% at 85% 75%,rgba(30,63,160,.22),transparent 70%),var(--navy)}
+/* ---------- 3. world tours route ---------- */
+.tours{position:relative;isolation:isolate;padding:10vh 0 14vh;overflow:hidden;background:radial-gradient(70% 40% at 20% 30%,rgba(30,63,160,.28),transparent 70%),radial-gradient(60% 40% at 85% 75%,rgba(30,63,160,.22),transparent 70%),var(--navy)}
 .tours-intro{max-width:900px;margin:0 auto 10vh;padding:0 var(--pad);text-align:center}
 .tours-intro .h2{margin:16px 0 18px;text-wrap:balance}
 .tours-intro p{color:var(--muted)}
-.tours-body{position:relative;max-width:1320px;margin:0 auto;padding:6vh var(--pad) 18vh}
-.tours-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-.tours-base{fill:none;stroke:rgba(243,238,228,.24);stroke-width:1.5;stroke-dasharray:1 10;stroke-linecap:round}
-.tours-drawn{fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round}
-.tours-stops circle{fill:var(--navy);stroke:rgba(216,192,138,.55);stroke-width:1.5;transition:fill .5s,stroke .5s}
-.tours-stops circle.on{fill:var(--gold);stroke:var(--gold)}
-.tours-plane{position:absolute;left:0;top:0;z-index:3;width:40px;height:40px;margin:-20px 0 0 -20px;fill:var(--cream);filter:drop-shadow(0 0 14px rgba(216,192,138,.75));will-change:transform}
+.tours-body{position:relative;max-width:1320px;margin:0 auto;padding:6vh var(--pad) 8vh}
 .stops{position:relative;z-index:1}
 .stop{width:42%;margin-bottom:16vh}
 .stop:nth-child(even){margin-left:auto}
@@ -111,17 +112,15 @@ main{position:relative;z-index:1}
 .stop-info>*,.when{opacity:0;transform:translateY(20px);transition:opacity .9s .25s,transform .9s .25s cubic-bezier(.2,.8,.2,1)}
 .stop.in .stop-info>*,.stop.in .when{opacity:1;transform:none}
 @media (max-width:767px){
-  .tours-body{padding-left:60px}
   .stop{width:100%;margin-bottom:11vh}
   .stop:nth-child(even){margin-left:0}
-  .stop-info{flex-direction:column;align-items:flex-start;gap:10px}
+  .stop-info{flex-direction:column;align-items:flex-start;gap:10px;padding:14px 16px;border-radius:12px;background:rgba(7,20,51,.92)}
   .when{text-align:left}
-  .tours-plane{width:32px;height:32px;margin:-16px 0 0 -16px}
 }
 
 /* ---------- 4. how it works: three scenes played by scroll ---------- */
 .how{position:relative;background:radial-gradient(55% 60% at 74% 50%,rgba(30,63,160,.38),transparent 70%),var(--navy)}
-.how-stage{height:100vh;display:grid;grid-template-columns:1fr 1.05fr;gap:5vw;align-items:center;max-width:1440px;margin:0 auto;padding:0 var(--pad)}
+.how-stage{position:relative;isolation:isolate;height:100vh;display:grid;grid-template-columns:1fr 1.05fr;gap:5vw;align-items:center;max-width:1440px;margin:0 auto;padding:0 var(--pad)}
 .how-copy .h2{font-size:clamp(40px,4.6vw,84px);margin-top:14px;text-wrap:balance}
 .how-steps{list-style:none;margin-top:5vh}
 .how-steps li{position:relative;border-top:1px solid rgba(243,238,228,.14)}
@@ -165,8 +164,9 @@ main{position:relative;z-index:1}
 .loop-orbit svg{position:absolute;left:50%;top:0;width:10%;margin:-5% 0 0 -5%;fill:var(--cream);filter:drop-shadow(0 0 10px rgba(216,192,138,.7));transform:rotate(-90deg)}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (max-width:900px){
-  .how-stage{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start;gap:2vh;padding:5vh var(--pad) 90px}
-  .how-visual{order:-1;height:40vh}
+  /* phones: the words first, the scene underneath */
+  .how-stage{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start;gap:2vh;padding:6vh var(--pad) 84px}
+  .how-visual{height:38vh}
   .how-copy .h2{font-size:32px}
   .how-steps{margin-top:14px}
   .how-steps button{padding:12px 0;gap:14px}
@@ -175,29 +175,26 @@ main{position:relative;z-index:1}
 }
 
 /* ---------- 5. next step ---------- */
-.next{position:relative;padding:22vh var(--pad) 12vh;text-align:center;background:radial-gradient(50% 50% at 50% 55%,rgba(30,63,160,.3),transparent 70%),var(--navy)}
-.next-kicker{color:var(--gold)}
+.next{position:relative;isolation:isolate;padding:20vh var(--pad) 10vh;text-align:center;background:radial-gradient(50% 50% at 50% 55%,rgba(30,63,160,.3),transparent 70%),var(--navy)}
+.next-kicker{display:inline-block;color:var(--gold)}
 .next-title{font-family:var(--serif);font-weight:500;font-size:clamp(42px,6.2vw,118px);line-height:1;letter-spacing:-.015em;max-width:18ch;margin:22px auto 28px;text-wrap:balance}
 .next-sub{position:relative;display:inline-block;padding-bottom:10px;font-size:clamp(18px,1.6vw,24px)}
 .next-sub::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold);transform-origin:left;transform:scaleX(var(--u,0))}
-.next .cue{display:flex;margin-top:7vh}
+@media (max-width:767px){.next{padding-top:34vh}}
 
 /* ---------- 6. signup / boarding pass ---------- */
-.signup{position:relative;background:var(--navy);padding:10vh var(--pad) 16vh;overflow:hidden}
-.signup-bg{position:absolute;inset:0;background:url(assets/nori.jpg) center 40%/cover;opacity:.22}
+.signup{position:relative;isolation:isolate;background:var(--navy);padding:8vh var(--pad) 16vh;overflow:hidden}
+.signup-bg{position:absolute;inset:0;z-index:-2;background:url(assets/nori.jpg) center 40%/cover;opacity:.22}
 .signup-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--navy) 0%,rgba(7,20,51,.6) 40%,var(--navy) 100%)}
-.signup-grid{position:relative;display:grid;grid-template-columns:.9fr 1.1fr;gap:6vw;align-items:center;max-width:1420px;margin:0 auto}
-.signup-copy .h2{margin:16px 0 22px}
-.signup-copy>p{color:var(--muted);max-width:42ch}
-.countdown-label{margin-top:34px;color:var(--gold)}
-.countdown{display:flex;gap:10px;margin:12px 0 20px}
-.countdown div{min-width:92px;padding:14px 10px 10px;border:1px solid rgba(243,238,228,.18);border-radius:8px;text-align:center}
+.signup-head{text-align:center;margin-bottom:7vh}
+.signup-head .h2{display:inline-block;text-wrap:balance}
+.countdown-label{margin-top:30px;color:var(--gold)}
+.countdown{display:inline-flex;gap:10px;margin-top:12px}
+.countdown div{min-width:92px;padding:14px 10px 10px;border:1px solid rgba(243,238,228,.18);border-radius:8px;text-align:center;background:rgba(7,20,51,.6)}
 .countdown b{display:block;font-family:var(--mono);font-weight:500;font-size:40px;line-height:1.05}
 .countdown span{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--muted)}
-.signup-note{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px}
-.signup-note svg{flex:none;color:#4ADE80}
 
-.pass{position:relative;display:grid;grid-template-columns:1fr 210px;background:var(--cream);color:var(--ink);border-radius:20px;box-shadow:0 60px 140px rgba(0,0,0,.45)}
+.pass{position:relative;display:grid;grid-template-columns:1fr 210px;max-width:960px;margin:0 auto;background:var(--cream);color:var(--ink);border-radius:20px;box-shadow:0 60px 140px rgba(0,0,0,.45)}
 .pass-main{padding:34px 36px 30px}
 .pass-top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid rgba(4,11,31,.12)}
 .pass-top .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:13px;letter-spacing:.04em}
@@ -208,6 +205,9 @@ main{position:relative;z-index:1}
 .route b{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(30px,3vw,46px);line-height:1}
 .route .path{flex:1;display:flex;align-items:center;gap:8px;color:var(--royal-2)}
 .route .path::before,.route .path::after{content:"";flex:1;border-top:1px dashed rgba(4,11,31,.3)}
+/* the ticket's own plane lights up when the flying one lands on it */
+.route .path svg{transform:rotate(90deg);opacity:.25;transition:transform .6s cubic-bezier(.3,1.7,.5,1),opacity .3s}
+.route .path svg.land{opacity:1;transform:rotate(90deg) scale(1.35)}
 .route>div:last-child{text-align:right}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:18px 26px;margin-top:18px}
 .field{display:flex;flex-direction:column;gap:4px}
@@ -233,7 +233,6 @@ main{position:relative;z-index:1}
 .barcode{margin-top:auto;height:54px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 12px)}
 .stamp{position:absolute;right:18px;top:44%;padding:8px 14px;border:2px solid var(--royal-2);border-radius:6px;color:var(--royal-2);font-family:var(--mono);font-weight:500;font-size:13px;letter-spacing:.2em;transform:rotate(-12deg);opacity:0;pointer-events:none}
 @media (max-width:900px){
-  .signup-grid{grid-template-columns:1fr;gap:48px}
   .pass{grid-template-columns:1fr}
   .pass-main{padding:26px 22px}
   .fields{grid-template-columns:1fr}
@@ -247,8 +246,9 @@ main{position:relative;z-index:1}
 
 /* ---------- 7. community wall: polaroids that drift, and can be dragged ---------- */
 .gallery{position:relative;background:radial-gradient(90% 70% at 50% 62%,#10245c 0%,var(--navy) 72%)}
-.gallery-intro{display:grid;grid-template-columns:1.3fr 1fr;gap:6vw;align-items:end;padding:14vh var(--pad) 4vh}
-.gallery-intro p{color:var(--muted);max-width:44ch}
+.gallery-intro{max-width:1100px;padding:14vh var(--pad) 2vh}
+.gallery-intro p{margin-top:26px;max-width:62ch;color:var(--muted);font-size:clamp(16px,1.3vw,20px)}
+.gallery-intro .gallery-call{max-width:30ch;font-family:var(--serif);font-weight:500;font-size:clamp(26px,2.6vw,42px);line-height:1.15;color:var(--gold)}
 .gallery-stage{overflow:hidden;padding:12vh 0 22vh;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .gallery-stage.grabbing{cursor:grabbing}
 .gallery-stage img{pointer-events:none;-webkit-user-drag:none}
@@ -274,7 +274,7 @@ main{position:relative;z-index:1}
 .polaroid figcaption{height:clamp(54px,5vw,74px);display:flex;align-items:center;justify-content:center;padding:0 6px;text-align:center;font-family:'Caveat',cursive;font-weight:500;font-size:clamp(20px,1.7vw,27px);line-height:1;color:#2b2d36}
 @media (prefers-reduced-motion:reduce){.polaroid.dev{animation:none}}
 @media (max-width:767px){
-  .gallery-intro{grid-template-columns:1fr;gap:20px;padding-top:12vh}
+  .gallery-intro{padding-top:12vh}
   .polaroid{width:62vw}
 }
 </style>
@@ -282,6 +282,7 @@ main{position:relative;z-index:1}
 <body>
 
 <div class="cursor" aria-hidden="true"></div>
+<div class="flight idle" aria-hidden="true"><div class="flight-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></div></div>
 
 <a class="cta is-hidden" href="#inscriere">Intră la webinar <small data-timer data-done="a început">05:00</small>
   <span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -295,38 +296,33 @@ main{position:relative;z-index:1}
     <div class="hero-stage">
       <div class="cabin"><img src="assets/hublou.jpg" alt=""></div>
       <div class="hero-shade"></div>
+      <svg class="leg" aria-hidden="true"></svg>
       <div class="hero-copy">
         <h1 class="hero-title"><span class="line"><span>Mergi cu noi în vacanțe?</span></span></h1>
+        <a class="hero-more label" href="#destinatii">Continuă pentru detalii</a>
+        <div class="flight-anchor"></div>
       </div>
-      <a class="cue hero-cue" href="#despre">
-        <span class="cue-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v15M6 13l6 6 6-6"/></svg></span>
-        <span class="label">Continuă pentru detalii</span>
-      </a>
     </div>
   </section>
 
-  <!-- 2. Manifest over the clouds -->
-  <section class="manifest" id="despre">
-    <p class="manifest-text" data-words>Călătorul Antreprenor este clubul în care peste <b class="gold">700 de români</b> stau în resorturi de 4 și 5 stele, descoperă lumea împreună și își transformă recomandările în vacanțe plătite.</p>
-  </section>
+  <!-- 2. Short transition through the clouds -->
+  <section class="transit" aria-hidden="true"><svg class="leg"></svg></section>
 
   <!-- 3. World tours route -->
   <section class="tours" id="destinatii">
+    <svg class="leg" aria-hidden="true"></svg>
     <div class="tours-intro">
-      <span class="label" style="color:var(--gold)">Tururi mondiale · 2026 – 2027</span>
-      <h2 class="h2" data-reveal>Unde ai putea să vii cu noi</h2>
-      <p data-reveal>Plecări în grup, alături de comunitate. Dă scroll și urmărește avionul.</p>
+      <span class="label" style="color:var(--gold)" data-gap>Tururi mondiale · 2026 – 2027</span>
+      <h2 class="h2" data-reveal data-gap>Unde ai putea să vii cu noi</h2>
+      <p data-reveal data-gap>Plecări în grup, alături de comunitate. Dă scroll și urmărește avionul.</p>
     </div>
-    <div class="tours-body">
-      <svg class="tours-svg" aria-hidden="true"><path class="tours-base"/><path class="tours-drawn"/><g class="tours-stops"></g></svg>
-      <svg class="tours-plane" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
-      <div class="stops"></div>
-    </div>
+    <div class="tours-body"><div class="stops"></div></div>
   </section>
 
   <!-- 4. How it works -->
   <section class="how" id="cum">
     <div class="how-stage">
+      <svg class="leg" aria-hidden="true"></svg>
       <div class="how-copy">
         <span class="label" style="color:var(--gold)">Cum funcționează</span>
         <h2 class="h2">Cum poți veni în vacanțe cu noi?</h2>
@@ -365,58 +361,52 @@ main{position:relative;z-index:1}
 
   <!-- 5. Next step -->
   <section class="next">
-    <span class="label next-kicker" data-reveal>Care e următorul pas…</span>
-    <h2 class="next-title" data-words>Vrei să vezi cum te poți înscrie în club?</h2>
-    <p class="next-sub" data-reveal>Participă la webinar și începe aventura</p>
-    <a class="cue" href="#inscriere" aria-label="Mergi la formular">
-      <span class="cue-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v15M6 13l6 6 6-6"/></svg></span>
-    </a>
+    <svg class="leg" aria-hidden="true"></svg>
+    <span class="label next-kicker" data-reveal data-gap>Care e următorul pas…</span>
+    <h2 class="next-title" data-words data-gap>Vrei să vezi cum te poți înscrie în club?</h2>
+    <p class="next-sub" data-reveal data-gap>Participă la webinar și începe aventura</p>
   </section>
 
   <!-- 6. Signup -->
   <section class="signup" id="inscriere">
     <div class="signup-bg" aria-hidden="true"></div>
-    <div class="signup-grid">
-      <div class="signup-copy">
-        <span class="label" style="color:var(--gold)">Webinar gratuit</span>
-        <h2 class="h2">Rezervă-ți locul la bord</h2>
-        <p>Prezentarea înregistrată rulează zilnic, iar joia ne vedem LIVE. Lasă-ți datele și intri imediat: afli ce beneficii ai ca membru, ce metode folosesc cei din club ca să aibă vacanțe plătite și cum te poți înscrie și tu.</p>
-        <p class="label countdown-label" data-timer-label>Webinarul începe în</p>
-        <div class="countdown" aria-label="Timp rămas până începe webinarul">
-          <div><b data-mm>05</b><span>min</span></div><div><b data-ss>00</b><span>sec</span></div>
-        </div>
-        <p class="signup-note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12.5l5 5L20 6.5"/></svg>Accesul la prezentare se deschide imediat după înscriere.</p>
+    <svg class="leg" aria-hidden="true"></svg>
+    <div class="signup-head">
+      <h2 class="h2" data-gap>Rezervă-ți locul la bord</h2>
+      <p class="label countdown-label" data-timer-label data-gap>Webinarul începe în</p>
+      <div class="countdown" aria-label="Timp rămas până începe webinarul" data-gap>
+        <div><b data-mm>05</b><span>min</span></div><div><b data-ss>00</b><span>sec</span></div>
       </div>
+    </div>
 
-      <div class="pass">
-        <div class="pass-main">
-          <div class="pass-top"><span class="brand"><img src="assets/logo-mark.png" alt="">CĂLĂTORUL ANTREPRENOR</span><span class="label">Boarding pass · Webinar</span></div>
-          <div class="route">
-            <div><span class="label">De la</span><b>Acasă</b></div>
-            <div class="path"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="transform:rotate(90deg)"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></div>
-            <div><span class="label">Spre</span><b>Oriunde</b></div>
+    <div class="pass">
+      <div class="pass-main">
+        <div class="pass-top"><span class="brand"><img src="assets/logo-mark.png" alt="">CĂLĂTORUL ANTREPRENOR</span><span class="label">Boarding pass · Webinar</span></div>
+        <div class="route">
+          <div><span class="label">De la</span><b>Acasă</b></div>
+          <div class="path"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></div>
+          <div><span class="label">Spre</span><b>Oriunde</b></div>
+        </div>
+        <form id="pass-form" autocomplete="on">
+          <div class="fields">
+            <div class="field full"><label for="nume">Nume complet</label><input id="nume" name="nume" required autocomplete="name" placeholder="Ion Popescu"></div>
+            <div class="field full"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="nume@email.com"></div>
+            <div class="field"><label for="tara">Țara în care locuiești</label><select id="tara" name="tara" required><option value="" disabled selected>Selectează țara...</option></select></div>
+            <div class="field"><label for="tel">Telefon (WhatsApp)</label><div class="phone"><span class="prefix">+</span><input id="tel" name="tel" type="tel" inputmode="tel" required autocomplete="tel-national" pattern="[0-9 ]{6,15}" title="Doar cifre, fără prefix" placeholder="7xx xxx xxx"></div></div>
           </div>
-          <form id="pass-form" autocomplete="on">
-            <div class="fields">
-              <div class="field full"><label for="nume">Nume complet</label><input id="nume" name="nume" required autocomplete="name" placeholder="Ion Popescu"></div>
-              <div class="field full"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="nume@email.com"></div>
-              <div class="field"><label for="tara">Țara în care locuiești</label><select id="tara" name="tara" required><option value="" disabled selected>Selectează țara...</option></select></div>
-              <div class="field"><label for="tel">Telefon (WhatsApp)</label><div class="phone"><span class="prefix">+</span><input id="tel" name="tel" type="tel" inputmode="tel" required autocomplete="tel-national" pattern="[0-9 ]{6,15}" title="Doar cifre, fără prefix" placeholder="7xx xxx xxx"></div></div>
-            </div>
-            <button class="submit" type="submit">Intră la webinar <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-            <p class="pass-fine">Te ducem imediat la prezentare.</p>
-          </form>
-        </div>
-        <div class="pass-stub">
-          <div><span class="label">Zbor</span><b>CA 0510</b></div>
-          <div><span class="label">Data</span><b>ZILNIC</b></div>
-          <div><span class="label">Îmbarcare</span><b data-timer data-done="ACUM">05:00</b></div>
-          <div><span class="label">Poarta</span><b>ONLINE</b></div>
-          <div><span class="label">Loc</span><b>GRATUIT</b></div>
-          <div><span class="label">Joi</span><b>LIVE</b></div>
-          <div class="barcode" aria-hidden="true"></div>
-          <div class="stamp" aria-hidden="true">ÎMBARCAT</div>
-        </div>
+          <button class="submit" type="submit">Intră la webinar <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p class="pass-fine">Te ducem imediat la prezentare.</p>
+        </form>
+      </div>
+      <div class="pass-stub">
+        <div><span class="label">Zbor</span><b>CA 0510</b></div>
+        <div><span class="label">Data</span><b>ZILNIC</b></div>
+        <div><span class="label">Îmbarcare</span><b data-timer data-done="ACUM">05:00</b></div>
+        <div><span class="label">Poarta</span><b>ONLINE</b></div>
+        <div><span class="label">Loc</span><b>GRATUIT</b></div>
+        <div><span class="label">Joi</span><b>LIVE</b></div>
+        <div class="barcode" aria-hidden="true"></div>
+        <div class="stamp" aria-hidden="true">ÎMBARCAT</div>
       </div>
     </div>
   </section>
@@ -425,7 +415,8 @@ main{position:relative;z-index:1}
   <section class="gallery" id="comunitate">
     <div class="gallery-intro">
       <h2 class="h2" data-reveal>O comunitate cum nu ai mai văzut…</h2>
-      <p data-reveal>Români care călătoresc și câștigă împreună. Dubai, Algarve, Marrakesh, Phuket, Bali, Cebu Mactan, Cancun, Londra, Sinaia, Praga, Madrid, Barcelona, Roma, Paris și multe alte destinații de vis.</p>
+      <p data-reveal>Un club creat pentru românii care vor să călătorească mai mult, să-și facă prieteni noi, dezvoltare personală și profesională și posibilitatea de a construi o nouă sursă de venit.</p>
+      <p class="gallery-call" data-reveal>Hai cu noi și ai parte de o comunitate cu peste 700 de români din întreaga lume!</p>
     </div>
     <div class="gallery-stage"><div class="track"></div></div>
     <p class="gallery-hint label">← Trage sau glisează pozele →</p>
@@ -515,47 +506,21 @@ const cabinImg = $('.cabin img'), skyImg = $('.sky img');
 const zoomTo = () => Math.max(innerWidth/(cabinImg.offsetWidth*.49), innerHeight/(cabinImg.offsetHeight*.52))*1.12;
 gsap.timeline({scrollTrigger:{trigger:'.hero',start:'top top',end:'+=160%',scrub:1,pin:true,invalidateOnRefresh:true}})
   .to('.hero-copy',{yPercent:-45,opacity:0,ease:'power1.in',duration:.35},0)
-  .to('.hero-cue,.hero-shade',{opacity:0,duration:.2},0)
+  .to('.hero-shade',{opacity:0,duration:.2},0)
   .fromTo('.cabin',{scale:1},{scale:zoomTo,ease:'power2.in',duration:1},0)
   .fromTo(skyImg,{scale:1.35},{scale:1.06,ease:'power1.inOut',duration:1},0)
   .to('.cabin',{autoAlpha:0,duration:.1},.9);
 
-/* ---------- 2. manifest fill + blue tint; every [data-words] fills in as it scrolls past ---------- */
-$$('[data-words]').forEach(p=>gsap.to(p.querySelectorAll('span'),{opacity:1,stagger:.1,ease:'none',scrollTrigger:{trigger:p,start:'top 80%',end:'bottom 45%',scrub:true}}));
-gsap.to('.sky-tint',{opacity:1,ease:'none',scrollTrigger:{trigger:'.manifest',start:'top 60%',end:'bottom 70%',scrub:true}});
-gsap.to(skyImg,{yPercent:-6,ease:'none',scrollTrigger:{trigger:'.manifest',start:'top bottom',end:'+=200%',scrub:true}});
+/* ---------- 2. transition: the clouds turn into the night-blue page ---------- */
+gsap.to('.sky-tint',{opacity:1,ease:'none',scrollTrigger:{trigger:'.transit',start:'top bottom',end:'bottom 55%',scrub:true}});
+gsap.to(skyImg,{yPercent:-6,ease:'none',scrollTrigger:{trigger:'.transit',start:'top bottom',end:'bottom top',scrub:true}});
 ScrollTrigger.create({trigger:'.tours',start:'top top',onEnter:()=>gsap.set('.sky',{visibility:'hidden'}),onLeaveBack:()=>gsap.set('.sky',{visibility:'visible'})});
 
+$$('[data-words]').forEach(p=>gsap.to(p.querySelectorAll('span'),{opacity:1,stagger:.1,ease:'none',scrollTrigger:{trigger:p,start:'top 80%',end:'bottom 45%',scrub:true}}));
 $$('[data-reveal]').forEach(el=>gsap.from(el,{y:50,opacity:0,duration:1.2,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none reverse'}}));
 
-/* ---------- 3. world tours route ---------- */
-const routeBody = $('.tours-body'), routeDrawn = $('.tours-drawn'), plane = $('.tours-plane'), stopEls = $$('.stop');
-let routeLen = 1, stopY = [];
-const route = {l:0};
-// the line snakes down the middle (left edge on phones), bulging to alternate sides between stops
-function buildRoute(){
-  const W = routeBody.offsetWidth, H = routeBody.offsetHeight, mob = W < 768, cx = mob ? 28 : W/2, A = mob ? 12 : W*.17;
-  const pts = [[cx,0], ...stopEls.map(s=>[cx, s.offsetTop + s.firstElementChild.offsetHeight/2]), [cx,H]];
-  let d = `M${cx} 0`;
-  for (let i=1;i<pts.length;i++){ const [x0,y0]=pts[i-1], [x1,y1]=pts[i], dy=(y1-y0)/2, b=(i%2?1:-1)*A; d += ` C${x0+b} ${y0+dy} ${x1+b} ${y1-dy} ${x1} ${y1}`; }
-  $('.tours-svg').setAttribute('viewBox',`0 0 ${W} ${H}`);
-  $('.tours-base').setAttribute('d',d); routeDrawn.setAttribute('d',d);
-  routeLen = routeDrawn.getTotalLength(); routeDrawn.style.strokeDasharray = routeLen;
-  stopY = pts.slice(1,-1).map(p=>p[1]);
-  $('.tours-stops').innerHTML = pts.slice(1,-1).map(([x,y])=>`<circle cx="${x}" cy="${y}" r="7"/>`).join('');
-  route.l = Math.min(route.l, routeLen); drawRoute();
-}
-function drawRoute(){
-  const l2 = Math.max(1, Math.min(routeLen, route.l+1)), p = routeDrawn.getPointAtLength(l2-1), q = routeDrawn.getPointAtLength(l2);
-  plane.style.transform = `translate(${p.x}px,${p.y}px) rotate(${Math.atan2(q.y-p.y,q.x-p.x)*180/Math.PI+90}deg)`;
-  routeDrawn.style.strokeDashoffset = routeLen - route.l;
-  $$('.tours-stops circle').forEach((c,i)=>c.classList.toggle('on', p.y >= stopY[i]-2));
-}
-// the path only ever moves downward, so binary-search the length whose point sits at a given height
-const lenAtY = y => { let lo=0, hi=routeLen; for (let k=0;k<24;k++){ const m=(lo+hi)/2; routeDrawn.getPointAtLength(m).y < y ? lo=m : hi=m; } return lo; };
-const flyTo = gsap.quickTo(route,'l',{duration:.7,ease:'power3',onUpdate:drawRoute});
-buildRoute();
-ScrollTrigger.create({trigger:routeBody,start:'top 55%',end:'bottom 55%',onRefresh:buildRoute,onUpdate:s=>flyTo(lenAtY(s.progress*routeBody.offsetHeight))});
+/* ---------- 3. world tours: cards open as they arrive ---------- */
+const stopEls = $$('.stop');
 stopEls.forEach(s=>ScrollTrigger.create({trigger:s,start:'top 85%',onEnter:()=>s.classList.add('in'),onLeaveBack:()=>s.classList.remove('in')}));
 
 /* ---------- 4. how it works: card → hand of holidays → enjoy & repeat ---------- */
@@ -635,10 +600,100 @@ wall.addEventListener('pointerup',letGo); wall.addEventListener('pointercancel',
 const develop = new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('dev',e.isIntersecting)),{threshold:.4});
 $$('.polaroid').forEach(p=>develop.observe(p));
 
+/* ---------- the flight ----------
+   One dotted line runs through every section (each section draws its own "leg", so pinned
+   sections keep theirs in place). The plane sits on a fixed horizontal line just under the
+   hero title; as the page scrolls, it is placed wherever the legs cross that line, and it
+   lands on the boarding pass at the end. */
+const flight = $('.flight'), landIcon = $('.route .path svg');
+const SVGNS = 'http://www.w3.org/2000/svg';
+let FLY_Y = 0, legs = [];
+// layout box of el inside host, ignoring transforms (reveal animations, the hero fade)
+const boxIn = (el, host) => { let x = 0, y = 0, n = el; while (n && n !== host) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; } return {x, y, w:el.offsetWidth, h:el.offsetHeight}; };
+// one smooth curve through every point (Catmull-Rom), with no corners anywhere; it leaves and
+// arrives vertically, so where one section's leg meets the next the line runs on unbroken
+const curve = pts => {
+  const n = pts.length, P = [[pts[1][0], pts[0][1]-80], ...pts, [pts[n-2][0], pts[n-1][1]+80]];
+  let d = `M${pts[0][0]} ${pts[0][1]}`;
+  for (let i = 1; i < P.length-2; i++) {
+    const [x0,y0] = P[i-1], [x1,y1] = P[i], [x2,y2] = P[i+1], [x3,y3] = P[i+2], h = y2-y1;
+    // keep the control points inside the segment's height so the line never turns back upward
+    d += ` C${x1+(x2-x0)/6} ${Math.min(y1+(y2-y0)/6, y1+h*.9)} ${x2-(x3-x1)/6} ${Math.max(y2-(y3-y1)/6, y1+h*.1)} ${x2} ${y2}`;
+  }
+  return d;
+};
+function buildFlight(){
+  const mob = innerWidth < 768, LANE = 10, heroStage = $('.hero-stage'), anchor = $('.flight-anchor');
+  FLY_Y = boxIn(anchor, heroStage).y + anchor.offsetHeight/2;
+  legs = $$('.leg').map((svg,i)=>{
+    const host = svg.parentElement, W = host.offsetWidth, H = host.offsetHeight, cx = W/2;
+    let pts = [[cx,0],[cx,H]], stops = [];
+    if (host === heroStage) pts = [[cx,FLY_Y],[cx,H]];
+    if (host.classList.contains('tours')) {
+      // through the middle of every photo, swinging out to alternate sides between them
+      const ys = $$('.stop-media').map(m=>{ const b = boxIn(m, host); return b.y + b.h/2; });
+      pts = [[cx,0]];
+      ys.forEach((y,k)=>{ if (k && !mob) pts.push([cx + (k%2 ? 1 : -1)*W*.17, (ys[k-1]+y)/2]); pts.push([cx,y]); });
+      pts.push([mob ? LANE : cx, H]);   // phones: drift to the left edge for the next section
+      stops = ys;
+    }
+    if (host.classList.contains('how-stage')) {
+      // desktop: the gap between the words and the scene; phones: the left edge, beside the scene
+      const c = boxIn($('.how-copy'), host), v = boxIn($('.how-visual'), host), lane = (c.x + c.w + v.x)/2;
+      pts = mob ? [[LANE,0],[LANE,H]] : [[cx,0],[lane,H*.25],[lane,H*.75],[cx,H]];
+    }
+    if (host.classList.contains('next') && mob) {
+      const k = boxIn($('.next-kicker'), host);
+      pts = [[LANE,0],[cx, k.y-24],[cx,H]];   // back to the middle before the words
+    }
+    if (host.classList.contains('signup')) {
+      const icon = boxIn(landIcon.parentElement, host), pass = boxIn($('.pass'), host);
+      pts = [[cx,0],[cx, pass.y-90],[icon.x + icon.w/2, icon.y + icon.h/2]];
+    }
+    const gaps = $$('[data-gap]').filter(el=>host.contains(el)).map(el=>boxIn(el, host));
+    const mask = `leg-mask-${i}`, d = curve(pts);
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+    svg.innerHTML = `<defs><mask id="${mask}" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><rect width="${W}" height="${H}" fill="#fff"/>${
+      gaps.map(g=>`<rect x="${g.x-16}" y="${g.y-14}" width="${g.w+32}" height="${g.h+28}" rx="12" fill="#000"/>`).join('')}</mask></defs>
+      <g mask="url(#${mask})"><path class="leg-base" d="${d}"/><path class="leg-drawn" d="${d}"/></g>
+      <g class="leg-stops">${stops.map(y=>`<circle cx="${cx}" cy="${y}" r="7"/>`).join('')}</g>`;
+    const drawn = svg.querySelector('.leg-drawn'), len = drawn.getTotalLength();
+    drawn.style.strokeDasharray = len;
+    return {svg, drawn, len, y0:pts[0][1], y1:pts[pts.length-1][1], stops:stops.map((y,k)=>({y, el:svg.querySelectorAll('circle')[k]}))};
+  });
+  fly();
+}
+// every leg only ever goes downward, so binary-search the length that reaches a given height
+const lenAtY = (g, y) => { let lo = 0, hi = g.len; for (let k=0;k<22;k++){ const m = (lo+hi)/2; g.drawn.getPointAtLength(m).y < y ? lo = m : hi = m; } return lo; };
+function fly(){
+  if (!legs.length) return;
+  let hit = null;
+  for (const g of legs) {
+    const r = g.svg.getBoundingClientRect(), y = FLY_Y - r.top;
+    const l = y <= g.y0 ? 0 : y >= g.y1 ? g.len : lenAtY(g, y);
+    g.drawn.style.strokeDashoffset = g.len - l;
+    g.stops.forEach(s=>s.el.classList.toggle('on', y >= s.y - 2));
+    if (!hit && y >= g.y0 - 1 && y <= g.y1 + 1) hit = {g, r, l};
+  }
+  const last = legs[legs.length-1], docked = !hit && FLY_Y - last.svg.getBoundingClientRect().top > last.y1;
+  if (!hit) hit = docked ? {g:last, r:last.svg.getBoundingClientRect(), l:last.len} : {g:legs[0], r:legs[0].svg.getBoundingClientRect(), l:0};
+  const {g, r, l} = hit, l2 = Math.max(1, Math.min(g.len, l+1)), p = g.drawn.getPointAtLength(l2-1), q = g.drawn.getPointAtLength(l2);
+  flight.style.transform = `translate(${r.left+p.x}px,${r.top+p.y}px) rotate(${Math.atan2(q.y-p.y, q.x-p.x)*180/Math.PI + 90}deg)`;
+  flight.classList.toggle('docked', docked);
+  flight.classList.toggle('idle', scrollY < 8);
+  landIcon.classList.toggle('land', docked);
+}
+buildFlight();
+ScrollTrigger.addEventListener('refresh', buildFlight);
+// re-place the plane for a few frames after every scroll change, so it is measured after the
+// pinned sections have moved (a big jump would otherwise leave it where it was)
+let flownAt = -1, settle = 0;
+gsap.ticker.add(()=>{ if (scrollY !== flownAt) { flownAt = scrollY; settle = 3; } if (settle > 0) { settle--; fly(); } });
+
 /* CTA pill: hidden over the hero and while the form is on screen */
 let pastHero = false, inForm = false;
 const syncCta = () => $('.cta').classList.toggle('is-hidden', !pastHero || inForm);
-ScrollTrigger.create({trigger:'.manifest',start:'top 85%',onEnter:()=>{pastHero=true;syncCta();},onLeaveBack:()=>{pastHero=false;syncCta();}});
+ScrollTrigger.create({trigger:'.transit',start:'top 85%',onEnter:()=>{pastHero=true;syncCta();},onLeaveBack:()=>{pastHero=false;syncCta();}});
 ScrollTrigger.create({trigger:'#inscriere',start:'top 75%',end:'bottom 25%',onToggle:s=>{inForm=s.isActive;syncCta();}});
 
 /* ---------- cursor ---------- */
@@ -652,7 +707,8 @@ if (fine){
 if (!reduce) gsap.timeline()
   .from('.cabin img',{scale:1.22,duration:2.4,ease:'expo.out'},0)
   .from('.hero-title .line>span',{yPercent:110,duration:1.5,ease:'expo.out'},.25)
-  .from('.hero-cue>*',{opacity:0,y:20,duration:1.2,stagger:.12,ease:'power2.out'},.9);
+  .from('.flight-ico',{scale:0,opacity:0,duration:.9,ease:'back.out(2)'},.9)
+  .from('.hero-more',{opacity:0,y:16,duration:1,ease:'power2.out'},1.1);
 // arriving with a #section (e.g. back from webinar.html) jumps there once the page is laid out
 const goHash = () => { const t = location.hash && $(location.hash); if (t) scrollToY(t.getBoundingClientRect().top + scrollY); };
 addEventListener('load',()=>{ ScrollTrigger.refresh(); measureWall(); goHash(); });
